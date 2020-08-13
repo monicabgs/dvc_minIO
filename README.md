@@ -1,5 +1,6 @@
-# dvc_minIO
-The objective of this project is used dvc in ML and Data Science projects. For this we'll store large files in MinIO.
+# dvc_minIO<br></p>
+The objective of this project is used dvc in ML and Data Science projects. For this we'll store large files in MinIO.<br></p>
+
 
 **1.Install Go**
 sudo passwd root<br></p>
@@ -14,6 +15,7 @@ sudo echo 'export PATH=$PATH:/usr/local/go/bin' >> /etc/profile<br></p>
 source /etc/profile<br></p>
 rm go1.14.2.linux-amd64.tar.gz<br></p>
 go version<br></p>
+
 
 **2. Install MinIO server** <br></p>
 cd ~
@@ -39,6 +41,7 @@ sudo mkdir /etc/minio<br></p>
 sudo chown minio:minio /usr/local/share/minio<br></p>
 sudo chown minio:minio /etc/minio<br></p>
 
+
 **3. Install initialize script Minio's systemd**<br></p>
 cd ~<br></p>
 wget https://raw.githubusercontent.com/minio/minio-service/master/linux-systemd/minio.service<br></p>
@@ -49,10 +52,9 @@ sudo mv minio.service /etc/systemd/system<br></p>
 
 sudo systemctl daemon-reload<br></p>
 sudo systemctl enable minio<br></p>
-
-**3. Starting Minio's service** <br></p>
 sudo systemctl start minio<br></p>
 sudo systemctl status minio<br></p>
+
 
 **4.Firewall setup**<br></p>
 cd ~<br></p>
@@ -63,6 +65,7 @@ sudo ufw allow 9000<br></p>
 sudo ufw allow http<br></p>
 sudo ufw allow https<br></p>
 sudo ufw enable<br></p>
+
 
 **5. Protecing access with TLS certificate**<br></p>
 cd ~<br></p>
@@ -87,6 +90,7 @@ sudo cp /etc/letsencrypt/live/minio-server.your_domain_name/fullchain.pem /etc/m
 sudo chown minio:minio /etc/minio/certs/private.key<br></p>
 sudo chown minio:minio /etc/minio/certs/public.crt<br></p>
 sudo systemctl restart minio<br></p>
+
 
 **7.Integrate project with MinIO**<br></p>
 
