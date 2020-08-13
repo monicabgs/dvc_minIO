@@ -2,14 +2,14 @@
 The objective of this project is used dvc in ML and Data Science projects. For this we'll store large files in MinIO.
 
 **1.Install Go**
-sudo passwd root
-su root
+sudo passwd root<br></p>
+su root<br></p>
 
-apt update
-wget -c https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz
-tar xvf go1.14.2.linux-amd64.tar.gz
-sudo chown -R root:root ./go
-sudo mv go /usr/local
+apt update<br></p>
+wget -c https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz<br></p>
+tar xvf go1.14.2.linux-amd64.tar.gz<br></p>
+sudo chown -R root:root ./go<br></p>
+sudo mv go /usr/local<br></p>
 sudo echo 'export PATH=$PATH:/usr/local/go/bin' >> /etc/profile
 source /etc/profile
 rm go1.14.2.linux-amd64.tar.gz
