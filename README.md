@@ -75,11 +75,11 @@ sudo ufw status verbose<br></p>
 sudo apt install software-properties-common<br></p>
 sudo add-apt-repository universe<br></p>
 
-**Create a domain configuration**<br></p>
+**6. Create a domain configuration**<br></p>
 sudo hostnamectl set-hostname **gut**<br></p>
 echo '127.0.0.1 **gut.com** **gut**' | sudo tee -a /etc/hosts<br></p>
 
-**6.Encrypt certificate using Certbot for MinIO**<br></p>
+**7. Encrypt certificate using Certbot for MinIO**<br></p>
 sudo apt update<br></p>
 sudo add-apt-repository ppa:certbot/certibot<br></p>
 sudo apt update<br></p>
@@ -95,7 +95,7 @@ sudo chown minio:minio /etc/minio/certs/public.crt<br></p>
 sudo systemctl restart minio<br></p>
 
 
-**7.Integrate project with MinIO**<br></p>
+**8.Integrate project with MinIO**<br></p>
 
 
 
