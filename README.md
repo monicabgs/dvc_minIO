@@ -117,15 +117,13 @@ sudo certbot --apache<br></p>
 
 
 
-
-
-
 **7. Encrypt certificate using Certbot for MinIO**<br></p>
+sudo apt-install software-properties-common
+sudo add-apt-repository universe
 sudo apt update<br></p>
 sudo apt install certbot<br></p>
-sudo apt install certbot python3-certbot-apache<br></p>
-
 sudo certbot certonly --standalone -d minio-server.**gut.com**<br></p>
+
 sudo cp /etc/letsencrypt/live/minio-server.your_domain_name/privkey.pem /etc/minio/certs/private.key<br></p>
 sudo cp /etc/letsencrypt/live/minio-server.your_domain_name/fullchain.pem /etc/minio/certs/public.crt<br></p>
 sudo chown minio:minio /etc/minio/certs/private.key<br></p>
