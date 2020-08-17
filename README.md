@@ -80,26 +80,7 @@ sudo hostnamectl set-hostname **gut**<br></p>
 echo '127.0.0.1 **gut.com** **gut**' | sudo tee -a /etc/hosts<br></p>
 
 
-**7. Encrypt certificate using Certbot for MinIO**<br></p>
-cd ~<br></p>
-sudo apt-get install openssh-server<br></p>
-vim /etc/ssh/sshd_config<br></p>
-[include the code available in **/setup/sshd_config.txt**]<br></p>
 
-sudo service ssh restart<br></p>
-ssh localhost<br></p>
-
-sudo apt install snapd<br></p>
-
-sudo snap install --classic certbot<br></p>
-apt install python3-certbot-apache<br></p> 
-
-cd /etc/apache2/sites-available<br></p>
-touch gut.conf<br></p>
-vim gut.conf<br></p>
-[include the code available in **/setup/virtual_host.txt**]<br></p>
-sudo a2ensite gut.conf<br></p>
-sudo service apache2 reload<br></p>
 
 cd /var/www/<br></p>
 mkdir gut<br></p>
