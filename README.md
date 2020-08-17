@@ -18,7 +18,7 @@ go version<br></p>
 
 
 **2. Install MinIO server** <br></p>
-cd ~
+cd ~<br></p>
 wget https://dl.min.io/server/minio/release/linux-amd64/minio<br></p>
 
 sudo useradd --system minio --shell /sbin/nologin<br></p>
@@ -81,39 +81,39 @@ echo '127.0.0.1 **gut.com** **gut**' | sudo tee -a /etc/hosts<br></p>
 
 
 **7. Encrypt certificate using Certbot for MinIO**<br></p>
-cd ~
-sudo apt-get install openssh-server
-vim /etc/ssh/sshd_config
+cd ~<br></p>
+sudo apt-get install openssh-server<br></p>
+vim /etc/ssh/sshd_config<br></p>
 [include the code available in **/setup/sshd_config.txt**]<br></p>
 
-sudo service ssh restart
-ssh localhost
+sudo service ssh restart<br></p>
+ssh localhost<br></p>
 
-sudo apt install snapd
+sudo apt install snapd<br></p>
 
-sudo snap install --classic certbot
-apt install python3-certbot-apache 
+sudo snap install --classic certbot<br></p>
+apt install python3-certbot-apache<br></p> 
 
-cd /etc/apache2/sites-available
-touch gut.conf
-vim gut.conf
+cd /etc/apache2/sites-available<br></p>
+touch gut.conf<br></p>
+vim gut.conf<br></p>
 [include the code available in **/setup/virtual_host.txt**]<br></p>
-sudo a2ensite gut.conf
-sudo service apache2 reload
+sudo a2ensite gut.conf<br></p>
+sudo service apache2 reload<br></p>
 
-cd /var/www/
-mkdir gut
-cd gut
-touch gut.public_html
-vim gut.public_html
+cd /var/www/<br></p>
+mkdir gut<br></p>
+cd gut<br></p>
+touch gut.public_html<br></p>
+vim gut.public_html<br></p>
 [include the code available in **/setup/gut.public_html.txt**]<br></p>
-sudo mkdir -p /var/www/gut/documentroot
-cd ~
+sudo mkdir -p /var/www/gut/documentroot<br></p>
+cd ~<br></p>
 
 
 
 
-sudo certbot --apache
+sudo certbot --apache<br></p>
 
 
 
@@ -121,12 +121,11 @@ sudo certbot --apache
 
 
 **7. Encrypt certificate using Certbot for MinIO**<br></p>
-sudo add-apt-repository ppa:certbot/certibot<br></p>
 sudo apt update<br></p>
 sudo apt install certbot<br></p>
 sudo apt install certbot python3-certbot-apache<br></p>
 
-sudo certbot certonly --standalone -d minio.**gut**<br></p>
+sudo certbot certonly --standalone -d minio-server.**gut.com**<br></p>
 sudo cp /etc/letsencrypt/live/minio-server.your_domain_name/privkey.pem /etc/minio/certs/private.key<br></p>
 sudo cp /etc/letsencrypt/live/minio-server.your_domain_name/fullchain.pem /etc/minio/certs/public.crt<br></p>
 sudo chown minio:minio /etc/minio/certs/private.key<br></p>
