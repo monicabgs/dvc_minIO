@@ -33,7 +33,7 @@ sudo touch /etc/default/minio<br></p>
 sudo echo 'MINIO_ACCESS_KEY="minio"' >> /etc/default/minio<br></p>
 sudo echo 'MINIO_VOLUMES="/usr/local/share/minio/"' >> /etc/default/minio<br></p>
 sudo echo 'MINIO_OPTS="-C /etc/minio --address :9000"' >> /etc/default/minio<br></p>
-sudo echo 'MINIO_SECRET_KEY="guttest"' >> /etc/default/minio<br></p>
+sudo echo 'MINIO_SECRET_KEY="gutteste"' >> /etc/default/minio<br></p>
 
 sudo mkdir /usr/local/share/minio<br></p>
 sudo mkdir /etc/minio<br></p>
@@ -79,9 +79,46 @@ sudo add-apt-repository universe<br></p>
 sudo hostnamectl set-hostname **gut**<br></p>
 echo '127.0.0.1 **gut.com** **gut**' | sudo tee -a /etc/hosts<br></p>
 
-**7. Encrypt certificate using Certbot for MinIO**<br></p>
 
-sudo apt-get -y install git bc
+**7. Encrypt certificate using Certbot for MinIO**<br></p>
+cd ~
+sudo apt-get install openssh-server
+vim /etc/ssh/sshd_config
+[include the code available in **/setup/sshd_config.txt**]<br></p>
+
+sudo service ssh restart
+ssh localhost
+
+sudo apt install snapd
+
+sudo snap install --classic certbot
+apt install python3-certbot-apache 
+
+cd /etc/apache2/sites-available
+touch gut.conf
+vim gut.conf
+[include the code available in **/setup/virtual_host.txt**]<br></p>
+sudo a2ensite gut.conf
+sudo service apache2 reload
+
+cd /var/www/
+mkdir gut
+cd gut
+touch gut.public_html
+vim gut.public_html
+[include the code available in **/setup/gut.public_html.txt**]<br></p>
+sudo mkdir -p /var/www/gut/documentroot
+cd ~
+
+
+
+
+sudo certbot --apache
+
+
+
+
+
 
 **7. Encrypt certificate using Certbot for MinIO**<br></p>
 sudo add-apt-repository ppa:certbot/certibot<br></p>
