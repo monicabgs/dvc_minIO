@@ -80,7 +80,6 @@ sudo hostnamectl set-hostname **gut**<br></p>
 echo '127.0.0.1 **gut.com** **gut**' | sudo tee -a /etc/hosts<br></p>
 
 **7. Encrypt certificate using Certbot for MinIO**<br></p>
-sudo apt update<br></p>
 sudo add-apt-repository ppa:certbot/certibot<br></p>
 sudo apt update<br></p>
 sudo apt install certbot<br></p>
