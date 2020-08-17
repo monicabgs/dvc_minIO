@@ -84,7 +84,6 @@ sudo add-apt-repository ppa:certbot/certibot<br></p>
 sudo apt update<br></p>
 sudo apt install certbot<br></p>
 sudo apt install certbot python3-certbot-apache<br></p>
-sudo certbot --apache<br></p>
 
 sudo certbot certonly --standalone -d minio.**gut**<br></p>
 sudo cp /etc/letsencrypt/live/minio-server.your_domain_name/privkey.pem /etc/minio/certs/private.key<br></p>
