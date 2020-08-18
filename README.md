@@ -75,9 +75,48 @@ sudo ufw status verbose<br></p>
 sudo apt install software-properties-common<br></p>
 sudo add-apt-repository universe<br></p>
 
-**6. Create a domain configuration**<br></p>
+**6. Create a hostname**<br></p>
 sudo hostnamectl set-hostname **gut**<br></p>
 echo '127.0.0.1 **gut.com** **gut**' | sudo tee -a /etc/hosts<br></p>
+
+**7. DNS server configuration**<br></p>
+cd ~
+mkdir -m /etc/cloud/
+cd /cloud
+touch cloud.cfg
+vim cloud.cfg
+[Paste the code available in **/setup/cloud.cfg.txt**]<br></p>
+reboot
+
+vim /etc/resolv.conf
+[Paste the code available in **/setup/resolv.conf.txt**]<br></p>
+
+apt-get install bind9 bind9utils bind9-doc -y
+cd /etc/bind/
+cp named.conf.local named.conf.local.back
+cp db.local db.fwd.gut.com
+cp db.local db.rev.gut.com
+mkdir /etc/bind/zones
+mv db.fwd.gut.com zones
+mv db.rev.gut.com zones
+vim named.conf.local
+[Paste the code available in **/setup/name.config.local.txt**]<br></p>
+
+cd zones
+sudo vim db.fwd.gut.com
+[Delete all and paste the code available in **/setup/db.fwd.gut.com.txt**]<br></p>
+
+vim db.rev.gut.com
+[Delete all and paste the code available in **/setup/db.rev.gut.com.txt**]<br></p>
+
+service bind9 restart
+
+
+
+
+
+
+
 
 **7. Install and configure Apache**<br></p>
 sudo apt install apache2
