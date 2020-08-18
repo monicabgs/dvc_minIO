@@ -79,28 +79,34 @@ sudo add-apt-repository universe<br></p>
 sudo hostnamectl set-hostname **gut**<br></p>
 echo '127.0.0.1 **gut.com** **gut**' | sudo tee -a /etc/hosts<br></p>
 
+**7. Install and configure Apache**<br></p>
+sudo apt install apache2
+sudo ufw allow 'Apache'
+
+**8. Create Virtualhost**<br></p>
+sudo mkdir /var/www/gut.com<br></p>
+sudo chown -R $USER:$USER /var/www/gut.com<br></p>
+sudo chmod -R 755 /var/www/gut.com <br></p>
+vim /var/www/gut.com/index.html<br></p>
+[Paste the code available in **/setup/index.html**]<br></p>
+
+sudo vim /etc/apache2/sites-available/gut.com.conf<br></p>
+[Paste the code available in **/setup/gut.com.conf**]<br></p>
+sudo mkdir -p /var/www/gut.com/documentroot<br></p>
+sudo a2ensite gut.com<br></p>
+systemctl reload apache2<br></p>
+
+sudo a2dissite 000-default.conf<br></p>
+systemctl reload apache2<br></p>
+
+vim /etc/apache2/apache2.conf<br></p>
+[Paste the code available in **/setup/server_name.txt*]<br></p>
+sudo systemctl restart apache2<br></p>
 
 
-
-cd /var/www/<br></p>
-mkdir gut<br></p>
-cd gut<br></p>
-touch gut.public_html<br></p>
-vim gut.public_html<br></p>
-[include the code available in **/setup/gut.public_html.txt**]<br></p>
-sudo mkdir -p /var/www/gut/documentroot<br></p>
-cd ~<br></p>
-
-
-
-
-sudo certbot --apache<br></p>
-
-
-
-**7. Encrypt certificate using Certbot for MinIO**<br></p>
-sudo apt-install software-properties-common
-sudo add-apt-repository universe
+**9. Encrypt certificate using Certbot for MinIO**<br></p>
+sudo apt-install software-properties-common<br></p>
+sudo add-apt-repository universe<br></p>
 sudo apt update<br></p>
 sudo apt install certbot<br></p>
 sudo certbot certonly --standalone -d minio-server.**gut.com**<br></p>
