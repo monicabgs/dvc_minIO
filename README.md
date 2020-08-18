@@ -104,12 +104,15 @@ vim /etc/apache2/apache2.conf<br></p>
 sudo systemctl restart apache2<br></p>
 
 
+
+
 **9. Encrypt certificate using Certbot for MinIO**<br></p>
 sudo apt-install software-properties-common<br></p>
 sudo add-apt-repository universe<br></p>
 sudo apt update<br></p>
 sudo apt install certbot<br></p>
-sudo certbot certonly --standalone -d minio-server.**gut.com**<br></p>
+sudo service apache2 stop<br></p>
+sudo certbot certonly --standalone -d minio.**gut.com**<br></p>
 
 sudo cp /etc/letsencrypt/live/minio-server.your_domain_name/privkey.pem /etc/minio/certs/private.key<br></p>
 sudo cp /etc/letsencrypt/live/minio-server.your_domain_name/fullchain.pem /etc/minio/certs/public.crt<br></p>
