@@ -1,6 +1,7 @@
 // hide version number from clients for security reasons.
  version "not currently available";
 
+
  // optional - BIND default behavior is recursion
  recursion yes;
 

@@ -2,6 +2,7 @@ acl "Trusted" {
         127.0.0.1;   # Name Server
 };
 
+
 options {
         directory "/var/cache/bind";
 
