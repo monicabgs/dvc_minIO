@@ -1,0 +1,8 @@
+VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    ServerName gut.com
+    ServerAlias www.gut.com
+    DocumentRoot /var/www/gut.com
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
