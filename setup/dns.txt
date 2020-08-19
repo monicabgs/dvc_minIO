@@ -1,0 +1,85 @@
+sudo apt install bind9 bind9utils bind9-doc bind9-host
+sudo vim /etc/bind/named.conf.options
+
+// hide version number from clients for security reasons.
+ version "not currently available";
+
+ // optional - BIND default behavior is recursion
+ recursion yes;
+
+ // provide recursion service to trusted clients only
+ allow-recursion { 127.0.0.1; 192.168.0.0/24; 10.10.10.0/24; };
+
+ // enable the query log
+ querylog yes;
+
+
+
+sudo named-checkconf
+sudo systemctl restart named
+sudo ufw allow in from 127.0.0.1 to any port 53
+sudo vim /etc/systemd/resolved.conf
+DNS=127.0.0.1
+sudo systemctl restart systemd-resolved
+
+cd /etc/netplan/
+vim 01-network-manager-all.yaml 
+  nameservers:
+    search: [ invalid ]
+    addresses:
+            - 127.0.0.1
+
+
+sudo vim /etc/default/named
+
+
+list dns
+systemd-resolve --status | grep 'DNS Servers'
+
+---------------------------------------------------------------
+1. Set a static hostname
+
+hostnamectl
+hostnamectl set-hostname server.gut.com
+vim /etc/hostname (check if the hostname created is here)
+vim /etc/hosts    (include the hostname and ip  here)
+-127.0.0.1  gut 
+sudo vim /etc/cloud/cloud.cfg
+-preserve_hostname: true
+
+2. create a network interface
+ls /etc/netplan
+sudo cp /etc/netplan/01-network-manager-all.yaml 01-network-manager-all.yaml.bak
+sudo vim /etc/netplan/01-network-manager-all.yaml
+sudo vim /etc/netplan/00-installer-config.yaml
+
+ip a
+sudo vim /etc/cloud/cloud.cfg.d/subiquity-disable-cloudinit-networking.cfg
+# Let NetworkManager manage all devices on this system
+
+network:
+
+  version: 2
+
+  renderer: NetworkManager
+
+
+# Let NetworkManager manage all devices on this system
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      dhcp4: true
+
+sudo netplan --debug generate
+sudo netplan apply
+reboot
+
+sudo reboot
+ifconfig
+
+
+
+
+

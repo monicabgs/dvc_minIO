@@ -1,0 +1,12 @@
+// hide version number from clients for security reasons.
+ version "not currently available";
+
+
+ // optional - BIND default behavior is recursion
+ recursion yes;
+
+ // provide recursion service to trusted clients only
+ allow-recursion { 127.0.0.1; };
+
+ // enable the query log
+ querylog yes;
