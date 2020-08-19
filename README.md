@@ -50,12 +50,6 @@ vim minio_service<br></p>
 
 sudo mv minio.service /etc/systemd/system<br></p>
 
-sudo systemctl daemon-reload<br></p>
-sudo systemctl enable minio<br></p>
-sudo systemctl start minio<br></p>
-sudo systemctl status minio<br></p>
-
-
 **4.Firewall setup**<br></p>
 cd ~<br></p>
 sudo ufw default deny incoming<br></p>
@@ -74,6 +68,56 @@ sudo ufw allow 443<br></p>
 sudo ufw status verbose<br></p>
 sudo apt install software-properties-common<br></p>
 sudo add-apt-repository universe<br></p>
+
+
+**6. Install Minio Customer (MC)**<br></p>
+cd ~
+wget https://dl.min.io/client/mc/release/linux-amd64/mc
+chmod +x mc
+
+**6. Start Minio's service**<br></p>
+cd ~ 
+sudo systemctl daemon-reload<br></p>
+sudo systemctl enable minio<br></p>
+sudo systemctl start minio<br></p>
+sudo systemctl status minio<br></p>
+q (to quit)
+
+./mc alias set minio http://127.0.0.1:9000 minio gutteste
+./mc alias set minio http://172.17.0.1:9000 minio gutteste
+./mc alias set minio http://10.0.2.15:9000 minio gutteste
+
+./mc admin info minio
+
+**6. Generate a certificate**<br></p>
+mkdir -p /etc/openssl/
+cd /etc/openssl/
+touch openssl.conf
+vim touch openssl.conf
+[Paste the code available in **/setup/openssl.conf.txt**]
+openssl req -x509 -nodes -days 730 -newkey rsa:2048 -keyout private.key -out public.crt -config openssl.conf
+
+mv private.key /root/.minio/certs/CAs/
+mv public.crt /root/.minio/certs/CAs/
+
+./mc share upload s3/backup/2006-Mar-1/backup.tar.gz
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 **6. Create a hostname**<br></p>
 sudo hostnamectl set-hostname **gut**<br></p>
