@@ -71,9 +71,9 @@ sudo add-apt-repository universe<br></p>
 
 
 **6. Install Minio Customer (MC)**<br></p>
-cd ~
-wget https://dl.min.io/client/mc/release/linux-amd64/mc
-chmod +x mc
+cd ~<br></p>
+wget https://dl.min.io/client/mc/release/linux-amd64/mc<br></p>
+chmod +x mc<br></p>
 
 **6. Start Minio's service**<br></p>
 cd ~ 
@@ -90,17 +90,20 @@ q (to quit)
 ./mc admin info minio
 
 **6. Generate a certificate**<br></p>
-mkdir -p /etc/openssl/
-cd /etc/openssl/
-touch openssl.conf
-vim touch openssl.conf
-[Paste the code available in **/setup/openssl.conf.txt**]
-openssl req -x509 -nodes -days 730 -newkey rsa:2048 -keyout private.key -out public.crt -config openssl.conf
+mkdir -p /etc/openssl/<br></p>
+cd /etc/openssl/<br></p>
+touch openssl.conf<br></p>
+vim touch openssl.conf<br></p>
+[Paste the code available in **/setup/openssl.conf.txt**]<br></p>
+openssl req -x509 -nodes -days 730 -newkey rsa:2048 -keyout private.key -out public.crt -config openssl.conf<br></p>
 
-mv private.key /root/.minio/certs/CAs/
-mv public.crt /root/.minio/certs/CAs/
+mv private.key /root/.minio/certs/CAs/<br></p>
+mv public.crt /root/.minio/certs/CAs/<br></p>
 
-./mc share upload s3/backup/2006-Mar-1/backup.tar.gz
+./mc share upload s3/backup/2006-Mar-1/backup.tar.gz<br></p>
+
+
+--------------------------------------------------------------------------------------------
 
 
 
