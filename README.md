@@ -16,7 +16,6 @@ source /etc/profile<br></p>
 rm go1.14.2.linux-amd64.tar.gz<br></p>
 go version<br></p>
 
-
 **2. Install MinIO server** <br></p>
 cd ~<br></p>
 wget https://dl.min.io/server/minio/release/linux-amd64/minio<br></p>
@@ -41,7 +40,6 @@ sudo mkdir /etc/minio<br></p>
 sudo chown minio:minio /usr/local/share/minio<br></p>
 sudo chown minio:minio /etc/minio<br></p>
 
-
 **3. Install initialize script Minio's systemd**<br></p>
 cd ~<br></p>
 wget https://raw.githubusercontent.com/minio/minio-service/master/linux-systemd/minio.service<br></p>
@@ -60,36 +58,23 @@ sudo ufw allow http<br></p>
 sudo ufw allow https<br></p>
 sudo ufw enable<br></p>
 
-
-**5. Protecing access with TLS certificate**<br></p>
-cd ~<br></p>
-sudo ufw allow 80<br></p>
-sudo ufw allow 443<br></p>
-sudo ufw status verbose<br></p>
-sudo apt install software-properties-common<br></p>
-sudo add-apt-repository universe<br></p>
-
-
-**6. Install Minio Customer (MC)**<br></p>
+**5. Install Minio Customer (MC)**<br></p>
 cd ~<br></p>
 wget https://dl.min.io/client/mc/release/linux-amd64/mc<br></p>
 chmod +x mc<br></p>
 
-**6. Start Minio's service**<br></p>
-cd ~ 
-sudo systemctl daemon-reload<br></p>
-sudo systemctl enable minio<br></p>
-sudo systemctl start minio<br></p>
-sudo systemctl status minio<br></p>
-q (to quit)
-
+**6. Set Minio's service with user, passwork and Ip using mc (Minio Customer)**<br></p>
+cd ~
 ./mc alias set minio http://127.0.0.1:9000 minio gutteste
 ./mc alias set minio http://172.17.0.1:9000 minio gutteste
 ./mc alias set minio http://10.0.2.15:9000 minio gutteste
 
-./mc admin info minio
+**7. Protecing access with TLS certificate (http - https)**<br></p>
+sudo ufw allow 80<br></p>
+sudo ufw allow 443<br></p>
+sudo ufw status verbose<br></p>
 
-**6. Generate a certificate**<br></p>
+cd ~
 mkdir -p /etc/openssl/<br></p>
 cd /etc/openssl/<br></p>
 touch openssl.conf<br></p>
@@ -100,7 +85,27 @@ openssl req -x509 -nodes -days 730 -newkey rsa:2048 -keyout private.key -out pub
 mv private.key /root/.minio/certs/CAs/<br></p>
 mv public.crt /root/.minio/certs/CAs/<br></p>
 
-./mc share upload s3/backup/2006-Mar-1/backup.tar.gz<br></p>
+**8.Set Firefox to open tls certificate**
+go to firefox's browser
+about:config
+set this:
+security.tls.version.max = 3 
+security.tls.version.max = 4
+
+**9. Set MinIO like storage**<br></p>
+./mc policy set download minio/stuff/<br></p>
+
+**10. Start Minio's service**<br></p>
+cd ~ 
+sudo systemctl daemon-reload<br></p>
+sudo systemctl enable minio<br></p>
+sudo systemctl start minio<br></p>
+sudo systemctl status minio<br></p>
+q (to quit)
+
+**11. Check service**<br></p>
+
+./mc admin info minio
 
 
 --------------------------------------------------------------------------------------------
