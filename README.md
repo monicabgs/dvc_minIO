@@ -58,42 +58,33 @@ sudo ufw allow http<br></p>
 sudo ufw allow https<br></p>
 sudo ufw enable<br></p>
 
-**5. Install Minio Customer (MC)**<br></p>
-cd ~<br></p>
-wget https://dl.min.io/client/mc/release/linux-amd64/mc<br></p>
-chmod +x mc<br></p>
-
-**6. Set Minio's service with user, passwork and Ip using mc (Minio Customer)**<br></p>
-cd ~
-./mc alias set minio http://127.0.0.1:9000 minio gutteste
-./mc alias set minio http://172.17.0.1:9000 minio gutteste
-./mc alias set minio http://10.0.2.15:9000 minio gutteste
-
 **7. Protecing access with TLS certificate (http - https)**<br></p>
 sudo ufw allow 80<br></p>
 sudo ufw allow 443<br></p>
 sudo ufw status verbose<br></p>
 
 cd ~
-mkdir -p /etc/openssl/<br></p>
-cd /etc/openssl/<br></p>
+mkdir -p /etc/ssl/minio/ssl.crt/<br></p>
+mkdir -p /etc/ssl/minio/ssl.key/<br></p>
+cd /etc/ssl/minio/<br></p>
 touch openssl.conf<br></p>
 vim touch openssl.conf<br></p>
 [Paste the code available in **/setup/openssl.conf.txt**]<br></p>
 openssl req -x509 -nodes -days 730 -newkey rsa:2048 -keyout private.key -out public.crt -config openssl.conf<br></p>
 
-mv private.key /root/.minio/certs/CAs/<br></p>
-mv public.crt /root/.minio/certs/CAs/<br></p>
+cp private.key /root/.minio/certs/CAs/<br></p>
+cp public.crt /root/.minio/certs/CAs/<br></p>
 
-**8.Set Firefox to open tls certificate**
-go to firefox's browser
-about:config
-set this:
-security.tls.version.max = 3 
-security.tls.version.max = 4
+mv private.key /etc/ssl/minio/ssl.key/
+mv public.crt /etc/ssl/minio/ssl.crt/
 
-**9. Set MinIO like storage**<br></p>
-./mc policy set download minio/stuff/<br></p>
+**8.Adjustment virtualhost config to include the certificates**
+cd ~
+vim /etc/apache2/sites-available/default-ssl.conf
+[Delete all, copie and paste the code available in **/setup/ssl.certicates.txt**]<br></p>
+
+a2ensite default-ssl.conf
+systemctl reload apache2
 
 **10. Start Minio's service**<br></p>
 cd ~ 
@@ -103,9 +94,28 @@ sudo systemctl start minio<br></p>
 sudo systemctl status minio<br></p>
 q (to quit)
 
-**11. Check service**<br></p>
+**5. Install Minio Customer (MC)**<br></p>
+cd ~<br></p>
+wget https://dl.min.io/client/mc/release/linux-amd64/mc<br></p>
+chmod +x mc<br></p>
 
+**6. Set Minio's service like S3 storage (Minio Customer)**<br></p>
+cd ~
+./mc config host add minio http://127.0.0.1:9000 minio gutteste --api S3v4
 ./mc admin info minio
+./mc ls minio
+./mc mb minio/storage
+./mc ls minio
+./mc share upload minio/storage/gutteste
+
+**6. Set Minio's storage with dvc**<br></p>
+export MINIO_ACCESS_KEY="minio"
+export MINIO_SECRET_KEY="gutteste"
+
+
+
+Share: curl http://127.0.0.1:9000/storage/ -F x-amz-signature=57ed49f36625ef71333db75b122fa9c9ed583a87899f845df428624c02362ac2 -F bucket=storage -F policy=eyJleHBpcmF0aW9uIjoiMjAyMC0wOC0yOFQxNToyNTo1OS42ODZaIiwiY29uZGl0aW9ucyI6W1siZXEiLCIkYnVja2V0Iiwic3RvcmFnZSJdLFsiZXEiLCIka2V5IiwiZ3V0dGVzdGUiXSxbImVxIiwiJHgtYW16LWRhdGUiLCIyMDIwMDgyMVQxNTI1NTlaIl0sWyJlcSIsIiR4LWFtei1hbGdvcml0aG0iLCJBV1M0LUhNQUMtU0hBMjU2Il0sWyJlcSIsIiR4LWFtei1jcmVkZW50aWFsIiwibWluaW8vMjAyMDA4MjEvdXMtZWFzdC0xL3MzL2F3czRfcmVxdWVzdCJdXX0= -F x-amz-algorithm=AWS4-HMAC-SHA256 -F x-amz-credential=minio/20200821/us-east-1/s3/aws4_request -F x-amz-date=20200821T152559Z -F key=gutteste -F file=@<FILE>
+
 
 
 --------------------------------------------------------------------------------------------
@@ -213,6 +223,8 @@ sudo systemctl restart minio<br></p>
 
 
 **8.Integrate project with MinIO**<br></p>
+export MINIO_ACCESS_KEY="minio"
+
 
 
 
