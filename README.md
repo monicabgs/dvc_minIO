@@ -48,7 +48,7 @@ vim minio_service<br></p>
 
 sudo mv minio.service /etc/systemd/system<br></p>
 
-**4.Firewall setup**<br></p>
+**4.Firewall  configuration**<br></p>
 cd ~<br></p>
 sudo ufw default deny incoming<br></p>
 sudo ufw default allow outgoing<br></p>
