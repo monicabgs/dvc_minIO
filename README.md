@@ -48,7 +48,7 @@ vim minio_service<br></p>
 
 sudo mv minio.service /etc/systemd/system<br></p>
 
-**4.Firewall  configuration**<br></p>
+**4.Firewall's  configuration**<br></p>
 cd ~<br></p>
 sudo ufw default deny incoming<br></p>
 sudo ufw default allow outgoing<br></p>
@@ -57,36 +57,11 @@ sudo ufw allow 9000<br></p>
 sudo ufw allow http<br></p>
 sudo ufw allow https<br></p>
 sudo ufw enable<br></p>
-
-**7. Protecing access with TLS certificate (http - https)**<br></p>
 sudo ufw allow 80<br></p>
 sudo ufw allow 443<br></p>
 sudo ufw status verbose<br></p>
 
-cd ~
-mkdir -p /etc/ssl/minio/ssl.crt/<br></p>
-mkdir -p /etc/ssl/minio/ssl.key/<br></p>
-cd /etc/ssl/minio/<br></p>
-touch openssl.conf<br></p>
-vim touch openssl.conf<br></p>
-[Paste the code available in **/setup/openssl.conf.txt**]<br></p>
-openssl req -x509 -nodes -days 730 -newkey rsa:2048 -keyout private.key -out public.crt -config openssl.conf<br></p>
-
-cp private.key /root/.minio/certs/CAs/<br></p>
-cp public.crt /root/.minio/certs/CAs/<br></p>
-
-mv private.key /etc/ssl/minio/ssl.key/
-mv public.crt /etc/ssl/minio/ssl.crt/
-
-**8.Adjustment virtualhost config to include the certificates**
-cd ~
-vim /etc/apache2/sites-available/default-ssl.conf
-[Delete all, copie and paste the code available in **/setup/ssl.certicates.txt**]<br></p>
-
-a2ensite default-ssl.conf
-systemctl reload apache2
-
-**10. Start Minio's service**<br></p>
+**5. Start Minio's service**<br></p>
 cd ~ 
 sudo systemctl daemon-reload<br></p>
 sudo systemctl enable minio<br></p>
@@ -94,92 +69,64 @@ sudo systemctl start minio<br></p>
 sudo systemctl status minio<br></p>
 q (to quit)
 
-**5. Install Minio Customer (MC)**<br></p>
+**6. Install Minio Customer (MC)**<br></p>
 cd ~<br></p>
 wget https://dl.min.io/client/mc/release/linux-amd64/mc<br></p>
 chmod +x mc<br></p>
 
-**6. Set Minio's service like S3 storage (Minio Customer)**<br></p>
+**7. Set Minio's service with S3 storage (Minio Customer)**<br></p>
 cd ~
 ./mc config host add minio http://127.0.0.1:9000 minio gutteste --api S3v4<br></p>
 ./mc admin info minio<br></p>
-<./mc mb minio/storagebr></p>
+./mc mb minio/storagebr></p>
 ./mc ls <br></p>
 ./mc share upload minio/storage/gutteste<br></p>
 
-**6. Set Minio's storage with dvc**<br></p>
-export MINIO_ACCESS_KEY="minio"
-export MINIO_SECRET_KEY="gutteste"
+**8. Set Minio's storage with dvc**<br></p>
+export MINIO_ACCESS_KEY="minio"<br></p>
+export MINIO_SECRET_KEY="gutteste"<br></p>
 
-
-
-Share: curl http://127.0.0.1:9000/storage/ -F x-amz-signature=57ed49f36625ef71333db75b122fa9c9ed583a87899f845df428624c02362ac2 -F bucket=storage -F policy=eyJleHBpcmF0aW9uIjoiMjAyMC0wOC0yOFQxNToyNTo1OS42ODZaIiwiY29uZGl0aW9ucyI6W1siZXEiLCIkYnVja2V0Iiwic3RvcmFnZSJdLFsiZXEiLCIka2V5IiwiZ3V0dGVzdGUiXSxbImVxIiwiJHgtYW16LWRhdGUiLCIyMDIwMDgyMVQxNTI1NTlaIl0sWyJlcSIsIiR4LWFtei1hbGdvcml0aG0iLCJBV1M0LUhNQUMtU0hBMjU2Il0sWyJlcSIsIiR4LWFtei1jcmVkZW50aWFsIiwibWluaW8vMjAyMDA4MjEvdXMtZWFzdC0xL3MzL2F3czRfcmVxdWVzdCJdXX0= -F x-amz-algorithm=AWS4-HMAC-SHA256 -F x-amz-credential=minio/20200821/us-east-1/s3/aws4_request -F x-amz-date=20200821T152559Z -F key=gutteste -F file=@<FILE>
-
-
+Share: curl http://127.0.0.1:9000/storage/ -F x-amz-signature=57ed49f36625ef71333db75b122fa9c9ed583a87899f845df428624c02362ac2 -F bucket=storage -F policy=eyJleHBpcmF0aW9uIjoiMjAyMC0wOC0yOFQxNToyNTo1OS42ODZaIiwiY29uZGl0aW9ucyI6W1siZXEiLCIkYnVja2V0Iiwic3RvcmFnZSJdLFsiZXEiLCIka2V5IiwiZ3V0dGVzdGUiXSxbImVxIiwiJHgtYW16LWRhdGUiLCIyMDIwMDgyMVQxNTI1NTlaIl0sWyJlcSIsIiR4LWFtei1hbGdvcml0aG0iLCJBV1M0LUhNQUMtU0hBMjU2Il0sWyJlcSIsIiR4LWFtei1jcmVkZW50aWFsIiwibWluaW8vMjAyMDA4MjEvdXMtZWFzdC0xL3MzL2F3czRfcmVxdWVzdCJdXX0= -F x-amz-algorithm=AWS4-HMAC-SHA256 -F x-amz-credential=minio/20200821/us-east-1/s3/aws4_request -F x-amz-date=20200821T152559Z -F key=gutteste -F file=@<FILE><br></p>
 
 --------------------------------------------------------------------------------------------
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-**6. Create a hostname**<br></p>
-cd ~
-mkdir -m /etc/cloud/
-cd /cloud
-touch cloud.cfg
-vim cloud.cfg
+**9. Create a hostname**<br></p>
+cd ~<br></p>
+mkdir -m /etc/cloud/<br></p>
+cd /cloud<br></p>
+touch cloud.cfg<br></p>
+vim cloud.cfg<br></p>
 [Paste the code available in **/setup/cloud.cfg.txt**]<br></p>
-reboot
+reboot<br></p>
 
-vim /etc/resolv.conf
+vim /etc/resolv.conf<br></p>
 [Paste the code available in **/setup/resolv.conf.txt**]<br></p>
 
-apt-get install bind9 bind9utils bind9-doc -y
-cd /etc/bind/
-cp named.conf.local named.conf.local.back
-cp db.local db.fwd.gut.com
-cp db.local db.rev.gut.com
-mkdir /etc/bind/zones
-mv db.fwd.gut.com zones
-mv db.rev.gut.com zones
-vim named.conf.local
+apt-get install bind9 bind9utils bind9-doc -y<br></p>
+cd /etc/bind/<br></p>
+cp named.conf.local named.conf.local.back<br></p>
+cp db.local db.fwd.gut.com<br></p>
+cp db.local db.rev.gut.com<br></p>
+mkdir /etc/bind/zones<br></p>
+mv db.fwd.gut.com zones<br></p>
+mv db.rev.gut.com zones<br></p>
+vim named.conf.local<br></p>
 [Paste the code available in **/setup/name.config.local.txt**]<br></p>
 
-cd zones
-sudo vim db.fwd.gut.com
+cd zones<br></p>
+sudo vim db.fwd.gut.com<br></p>
 [Delete all and paste the code available in **/setup/db.fwd.gut.com.txt**]<br></p>
 
-vim db.rev.gut.com
+vim db.rev.gut.com<br></p>
 [Delete all and paste the code available in **/setup/db.rev.gut.com.txt**]<br></p>
 
-service bind9 restart
+service bind9 restart<br></p>
 
+**10. Install and configure Apache**<br></p>
+sudo apt install apache2<br></p>
+sudo ufw allow 'Apache'<br></p>
 
-
-
-
-
-
-
-**7. Install and configure Apache**<br></p>
-sudo apt install apache2
-sudo ufw allow 'Apache'
-
-**8. Create Virtualhost**<br></p>
+**11. Create Virtualhost**<br></p>
 sudo mkdir /var/www/gut.com<br></p>
 sudo chown -R $USER:$USER /var/www/gut.com<br></p>
 sudo chmod -R 755 /var/www/gut.com <br></p>
@@ -196,13 +143,10 @@ sudo a2dissite 000-default.conf<br></p>
 systemctl reload apache2<br></p>
 
 vim /etc/apache2/apache2.conf<br></p>
-[Paste the code available in **/setup/server_name.txt*]<br></p>
+[Paste the code available in **/setup/server_name.txt**]<br></p>
 sudo systemctl restart apache2<br></p>
 
-
-
-
-**9. Encrypt certificate using Certbot for MinIO**<br></p>
+**12. Encrypt certificate using Certbot for MinIO**<br></p>
 sudo apt-install software-properties-common<br></p>
 sudo add-apt-repository universe<br></p>
 sudo apt update<br></p>
@@ -216,21 +160,26 @@ sudo chown minio:minio /etc/minio/certs/private.key<br></p>
 sudo chown minio:minio /etc/minio/certs/public.crt<br></p>
 sudo systemctl restart minio<br></p>
 
+**13. Protecing access with TLS certificate (http - https)**<br></p>
+cd ~
+mkdir -p /etc/ssl/minio/ssl.crt/<br></p>
+mkdir -p /etc/ssl/minio/ssl.key/<br></p>
+cd /etc/ssl/minio/<br></p>
+touch openssl.conf<br></p>
+vim touch openssl.conf<br></p>
+[Paste the code available in **/setup/openssl.conf.txt**]<br></p>
+openssl req -x509 -nodes -days 730 -newkey rsa:2048 -keyout private.key -out public.crt -config openssl.conf<br></p>
 
-**8.Integrate project with MinIO**<br></p>
-export MINIO_ACCESS_KEY="minio"
+cp private.key /root/.minio/certs/CAs/<br></p>
+cp public.crt /root/.minio/certs/CAs/<br></p>
 
+mv private.key /etc/ssl/minio/ssl.key/<br></p>
+mv public.crt /etc/ssl/minio/ssl.crt/<br></p>
 
+**14.Adjustment virtualhost config to include the certificates**<br></p>
+cd ~<br></p>
+vim /etc/apache2/sites-available/default-ssl.conf<br></p>
+[Delete all, copie and paste the code available in **/setup/ssl.certicates.txt**]<br></p>
 
-
-
-
-
-
-
-
-
-
-
-
-
+a2ensite default-ssl.conf<br></p>
+systemctl reload apache2<br></p>
