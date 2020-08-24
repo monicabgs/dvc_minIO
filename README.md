@@ -101,12 +101,11 @@ chmod +x mc<br></p>
 
 **6. Set Minio's service like S3 storage (Minio Customer)**<br></p>
 cd ~
-./mc config host add minio http://127.0.0.1:9000 minio gutteste --api S3v4
-./mc admin info minio
-./mc ls minio
-./mc mb minio/storage
-./mc ls minio
-./mc share upload minio/storage/gutteste
+./mc config host add minio http://127.0.0.1:9000 minio gutteste --api S3v4<br></p>
+./mc admin info minio<br></p>
+<./mc mb minio/storagebr></p>
+./mc ls <br></p>
+./mc share upload minio/storage/gutteste<br></p>
 
 **6. Set Minio's storage with dvc**<br></p>
 export MINIO_ACCESS_KEY="minio"
