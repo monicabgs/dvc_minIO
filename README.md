@@ -89,6 +89,7 @@ export MINIO_SECRET_KEY="gutteste"<br></p>
 Share: curl http://127.0.0.1:9000/storage/ -F x-amz-signature=57ed49f36625ef71333db75b122fa9c9ed583a87899f845df428624c02362ac2 -F bucket=storage -F policy=eyJleHBpcmF0aW9uIjoiMjAyMC0wOC0yOFQxNToyNTo1OS42ODZaIiwiY29uZGl0aW9ucyI6W1siZXEiLCIkYnVja2V0Iiwic3RvcmFnZSJdLFsiZXEiLCIka2V5IiwiZ3V0dGVzdGUiXSxbImVxIiwiJHgtYW16LWRhdGUiLCIyMDIwMDgyMVQxNTI1NTlaIl0sWyJlcSIsIiR4LWFtei1hbGdvcml0aG0iLCJBV1M0LUhNQUMtU0hBMjU2Il0sWyJlcSIsIiR4LWFtei1jcmVkZW50aWFsIiwibWluaW8vMjAyMDA4MjEvdXMtZWFzdC0xL3MzL2F3czRfcmVxdWVzdCJdXX0= -F x-amz-algorithm=AWS4-HMAC-SHA256 -F x-amz-credential=minio/20200821/us-east-1/s3/aws4_request -F x-amz-date=20200821T152559Z -F key=gutteste -F file=@<FILE><br></p>
 
 --------------------------------------------------------------------------------------------
+It can be important so I decided include here. 
 
 **9. Create a hostname**<br></p>
 cd ~<br></p>
