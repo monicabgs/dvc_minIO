@@ -138,10 +138,6 @@ Share: curl http://127.0.0.1:9000/storage/ -F x-amz-signature=57ed49f36625ef7133
 
 
 **6. Create a hostname**<br></p>
-sudo hostnamectl set-hostname **gut**<br></p>
-echo '127.0.0.1 **gut.com** **gut**' | sudo tee -a /etc/hosts<br></p>
-
-**7. DNS server configuration**<br></p>
 cd ~
 mkdir -m /etc/cloud/
 cd /cloud
