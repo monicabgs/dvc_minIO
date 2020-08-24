@@ -1,6 +1,7 @@
 # dvc_minIO<br></p>
 The objective of this project is used dvc in ML and Data Science projects. For this we'll store large files in MinIO.<br></p>
 
+# MinIO's Setup <br></p>
 
 **1.Install Go**
 sudo passwd root<br></p>
